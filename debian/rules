@@ -1,0 +1,51 @@
+#!/usr/bin/make -f
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+SUPERFILE_VERSION := $(shell dpkg-parsechangelog -S Version | sed 's/[-~].*//')
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+
+# Upstream tags carry a "v" prefix (e.g. v1.6.0) and the Linux release assets
+# are named after the Go/Debian architecture spelling (amd64, arm64), so no
+# mapping table is needed. The tarball nests the binary under "./dist/<asset>/"
+# and the leading "./" counts as a path component, hence --strip-components=3.
+# Both Linux binaries are statically linked Go
+# binaries, which is why the package declares no libc dependency and
+# dh_shlibdeps is disabled.
+override_dh_auto_build:
+	@arch="$(DEB_HOST_ARCH)"; \
+	case "$$arch" in \
+		amd64|arm64) ;; \
+		*) echo "Unsupported architecture: $$arch"; exit 1 ;; \
+	esac; \
+	SPF_RELEASE="superfile-linux-v$(SUPERFILE_VERSION)-$$arch"; \
+	echo "Downloading $$SPF_RELEASE for $(SUPERFILE_VERSION)..."; \
+	wget -q "https://github.com/yorukot/superfile/releases/download/v$(SUPERFILE_VERSION)/$$SPF_RELEASE.tar.gz"; \
+	rm -rf "$$SPF_RELEASE"; \
+	mkdir -p "$$SPF_RELEASE"; \
+	tar -xf "$$SPF_RELEASE.tar.gz" -C "$$SPF_RELEASE" --strip-components=3; \
+	rm -f "$$SPF_RELEASE.tar.gz"; \
+	chmod +x "$$SPF_RELEASE/spf"; \
+	echo "$$SPF_RELEASE" > .superfile_release_name
+
+override_dh_auto_install:
+	@SPF_RELEASE=$$(cat .superfile_release_name); \
+	install -D -m 755 "$$SPF_RELEASE/spf" debian/superfile/usr/bin/spf
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	@if [ -f .superfile_release_name ]; then \
+		SPF_RELEASE=$$(cat .superfile_release_name); \
+		rm -rf "$$SPF_RELEASE" .superfile_release_name || true; \
+	fi
+
+override_dh_strip:
+
+# The upstream binary ships compressed debug sections that dwz cannot process,
+# and it is a prebuilt release artifact we do not want to rewrite anyway.
+override_dh_dwz:
+
+override_dh_shlibdeps:

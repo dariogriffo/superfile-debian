@@ -1,0 +1,56 @@
+superfile (FULL_VERSION) DIST; urgency=low
+
+  ## v1.6.0 (2026-06-07)
+
+  - Migrate to Bubble Tea v2, which makes image and file previews markedly more
+    reliable. ([#1406](https://github.com/yorukot/superfile/pull/1406))
+  - Richer file metadata: binary architecture detection for ELF, PE and Mach-O
+    executables, Linux file attributes, and a file type byte in the permissions
+    column. ([#1328](https://github.com/yorukot/superfile/pull/1328))
+    ([#1432](https://github.com/yorukot/superfile/pull/1432))
+    ([#1410](https://github.com/yorukot/superfile/pull/1410))
+  - Sidebar sections can be shown, hidden and reordered from the config.
+    ([#1323](https://github.com/yorukot/superfile/pull/1323))
+  - New `split_file_panel` key function, plus navigation fixes so returning to a
+    parent directory keeps the cursor on the directory you came from.
+    ([#1344](https://github.com/yorukot/superfile/pull/1344))
+    ([#1340](https://github.com/yorukot/superfile/pull/1340))
+  - Delete, paste and text-preview failures now report what actually went wrong
+    instead of a generic error.
+    ([#1408](https://github.com/yorukot/superfile/pull/1408))
+    ([#1431](https://github.com/yorukot/superfile/pull/1431))
+    ([#1436](https://github.com/yorukot/superfile/pull/1436))
+  - New `--debug-info` flag, PostScript file support, and Desktop added to the
+    well-known directories.
+  - Fixes for invalid themes crashing startup, `natural_sort` being rejected as a
+    sort option, multi-column header misalignment, and non-deterministic file
+    processing order.
+  - New website and logo design.
+    ([#1423](https://github.com/yorukot/superfile/pull/1423))
+
+  ## v1.5.0 (2026-01-13)
+
+  - Video and PDF previews, rendered from the first frame or page.
+  - Multi-column file panel with date, size and permission columns.
+  - Configurable fast navigation in the file panel.
+    ([#1220](https://github.com/yorukot/superfile/pull/1220))
+  - Open files with a per-extension editor of your choice.
+    ([#1197](https://github.com/yorukot/superfile/pull/1197))
+  - Terminal stdout support for shell commands, and launching with a file name:
+    `spf /a/b/c.txt` opens `/a/b` with `c.txt` selected.
+
+  ## v1.4.0 (2025-10-10)
+
+  - Zoxide panel: install zoxide, set `zoxide_support` to `true` in the config,
+    and press `z` to jump.
+  - File previewing is now asynchronous, so scrolling through images stays
+    responsive on slow systems.
+
+  ## v1.3.2 (2025-07-16)
+
+  - Image preview through the kitty graphics protocol.
+  - Zoxide support for path resolution in the initial configuration.
+  - New 0x96f theme.
+
+  Older entries have been trimmed. The complete upstream changelog lives at
+  https://github.com/yorukot/superfile/releases

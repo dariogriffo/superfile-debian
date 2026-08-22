@@ -1,0 +1,22 @@
+Source: superfile
+Section: utils
+Priority: optional
+Maintainer: Dario Griffo <dariogriffo@gmail.com>
+Homepage: https://superfile.dev
+Package: superfile
+Version: SUPERFILE_VERSION-BUILD_VERSION~DIST
+Architecture: SUPPORTED_ARCHITECTURES
+Recommends: xdg-utils
+Suggests: zoxide, libimage-exiftool-perl, ffmpeg, poppler-utils, xclip | wl-clipboard
+Description: pretty fancy and modern terminal file manager
+ superfile is a modern, feature-rich TUI file manager for the terminal. It
+ presents a multi-panel layout with a pinned-directory sidebar, a file preview
+ pane and a processes bar that tracks long-running copy, move and delete
+ operations.
+ .
+ It supports fuzzy search, batch renaming, archive extraction and compression,
+ image previews, Git status indicators, a built-in trash bin with restore, and
+ zoxide-backed directory jumping. Themes, hotkeys and the panel layout are all
+ configurable.
+ .
+ The command shipped by this package is "spf".
